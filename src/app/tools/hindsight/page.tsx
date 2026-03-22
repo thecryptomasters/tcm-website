@@ -56,26 +56,21 @@ export default function HindsightPage() {
     setResult(null);
 
     try {
-      const from = Math.floor(new Date(startDate).getTime() / 1000);
-      const to = Math.floor(new Date(endDate).getTime() / 1000);
+      const fromMs = new Date(startDate).getTime();
+      const toMs = new Date(endDate).getTime();
 
-      if (from >= to) {
+      if (fromMs >= toMs) {
         setError("End date must be after start date.");
         setLoading(false);
         return;
       }
 
-      // CoinGecko free tier limits range queries to 365 days
-      const now = Math.floor(Date.now() / 1000);
-      const maxRange = 365 * 24 * 60 * 60;
-      if (now - from > maxRange) {
-        setError("Free API limits historical data to the past 365 days. Please choose a more recent start date.");
-        setLoading(false);
-        return;
-      }
+      // Calculate days from start date to now, use the `days` endpoint (supports "max")
+      const daysFromStart = Math.ceil((Date.now() - fromMs) / (1000 * 60 * 60 * 24));
+      const daysParam = daysFromStart > 360 ? "max" : daysFromStart.toString();
 
       const res = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`
+        `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${daysParam}`
       );
       const data = await res.json();
 
@@ -85,17 +80,42 @@ export default function HindsightPage() {
         return;
       }
 
-      const startPrice = data.prices[0][1];
-      const endPrice = data.prices[data.prices.length - 1][1];
+      // Find the closest data points to user's selected start and end dates
+      const findClosest = (prices: [number, number][], targetMs: number) => {
+        let closest = prices[0];
+        let minDiff = Math.abs(prices[0][0] - targetMs);
+        for (const p of prices) {
+          const diff = Math.abs(p[0] - targetMs);
+          if (diff < minDiff) { minDiff = diff; closest = p; }
+        }
+        return closest;
+      };
+
+      const startPoint = findClosest(data.prices, fromMs);
+      const endPoint = findClosest(data.prices, toMs);
+
+      // Filter chart data to only show between start and end dates
+      const filteredPrices = data.prices.filter(
+        (p: [number, number]) => p[0] >= startPoint[0] && p[0] <= endPoint[0]
+      );
+
+      if (filteredPrices.length < 2) {
+        setError("Not enough data points for this date range.");
+        setLoading(false);
+        return;
+      }
+
+      const startPrice = startPoint[1];
+      const endPrice = endPoint[1];
       const investmentAmount = parseFloat(amount);
       const coinsOwned = investmentAmount / startPrice;
       const endValue = coinsOwned * endPrice;
       const profitLoss = endValue - investmentAmount;
       const profitPercent = ((endValue - investmentAmount) / investmentAmount) * 100;
 
-      const step = Math.max(1, Math.floor(data.prices.length / 100));
-      const chartData = data.prices
-        .filter((_: [number, number], i: number) => i % step === 0 || i === data.prices.length - 1)
+      const step = Math.max(1, Math.floor(filteredPrices.length / 100));
+      const chartData = filteredPrices
+        .filter((_: [number, number], i: number) => i % step === 0 || i === filteredPrices.length - 1)
         .map(([time, price]: [number, number]) => ({
           date: new Date(time).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "2-digit" }),
           price,

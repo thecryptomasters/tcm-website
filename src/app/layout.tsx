@@ -41,7 +41,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${inter.variable} font-sans antialiased`}>
         <Navbar />
-        <main className="min-h-screen pt-16">{children}</main>
+        <main className="min-h-screen pt-20 overflow-x-hidden">{children}</main>
         <Footer />
         <Analytics />
       </body>
