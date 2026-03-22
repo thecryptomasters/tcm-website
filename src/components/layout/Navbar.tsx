@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -26,6 +27,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -63,7 +65,7 @@ export default function Navbar() {
                   onMouseEnter={() => setDropdownOpen(true)}
                   onMouseLeave={() => setDropdownOpen(false)}
                 >
-                  <button className="flex items-center gap-1 text-gray-300 hover:text-accent transition-colors">
+                  <button className={`flex items-center gap-1 transition-colors ${item.children.some((c) => pathname === c.href) ? "text-accent" : "text-gray-300 hover:text-accent"}`}>
                     {item.label}
                     <ChevronDown className="w-4 h-4" />
                   </button>
@@ -79,7 +81,7 @@ export default function Navbar() {
                           <Link
                             key={child.href}
                             href={child.href}
-                            className="block px-4 py-3 text-gray-300 hover:bg-primary hover:text-accent transition-colors"
+                            className={`block px-4 py-3 transition-colors ${pathname === child.href ? "text-accent bg-primary" : "text-gray-300 hover:bg-primary hover:text-accent"}`}
                           >
                             {child.label}
                           </Link>
@@ -92,7 +94,7 @@ export default function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="text-gray-300 hover:text-accent transition-colors"
+                  className={`transition-colors ${pathname === item.href ? "text-accent border-b-2 border-accent pb-1" : "text-gray-300 hover:text-accent"}`}
                 >
                   {item.label}
                 </Link>
@@ -104,6 +106,7 @@ export default function Navbar() {
           <button
             className="md:hidden text-gray-300"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle navigation menu"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -132,7 +135,7 @@ export default function Navbar() {
                         key={child.href}
                         href={child.href}
                         onClick={() => setMobileOpen(false)}
-                        className="block px-8 py-3 text-gray-300 hover:text-accent transition-colors"
+                        className={`block px-8 py-3 transition-colors ${pathname === child.href ? "text-accent" : "text-gray-300 hover:text-accent"}`}
                       >
                         {child.label}
                       </Link>
@@ -143,7 +146,7 @@ export default function Navbar() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block px-6 py-3 text-gray-300 hover:text-accent transition-colors"
+                    className={`block px-6 py-3 transition-colors ${pathname === item.href ? "text-accent" : "text-gray-300 hover:text-accent"}`}
                   >
                     {item.label}
                   </Link>

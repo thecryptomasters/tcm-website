@@ -11,6 +11,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://tcm-website-fawn.vercel.app"),
   title: {
     default: "The Crypto Masters | Helping You Master Crypto",
     template: "%s | The Crypto Masters",
@@ -22,10 +23,12 @@ export const metadata: Metadata = {
     siteName: "The Crypto Masters",
     title: "The Crypto Masters",
     description: "Helping You Master an Understanding of Crypto Assets",
+    images: [{ url: "/images/og-card.png" }],
   },
   twitter: {
     card: "summary_large_image",
     site: "@theCryptoMS1",
+    images: [{ url: "/images/og-card.png" }],
   },
 };
 

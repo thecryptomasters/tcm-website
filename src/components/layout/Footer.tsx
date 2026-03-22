@@ -11,7 +11,7 @@ function XIcon({ className }: { className?: string }) {
 
 const socialLinks = [
   { href: "https://www.facebook.com/TheCryptocurrencyMasters", icon: Facebook, label: "Facebook" },
-  { href: "https://twitter.com/theCryptoMS1", icon: XIcon, label: "X (Twitter)" },
+  { href: "https://x.com/theCryptoMS1", icon: XIcon, label: "X (Twitter)" },
   { href: "https://www.instagram.com/the_crypto_masters/", icon: Instagram, label: "Instagram" },
   { href: "https://www.youtube.com/channel/UCyrKtJ25wtlemNHk5MG-9tQ", icon: Youtube, label: "YouTube" },
 ];

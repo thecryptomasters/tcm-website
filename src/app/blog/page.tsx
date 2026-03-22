@@ -5,6 +5,11 @@ import { blogPosts } from "@/lib/placeholder-data";
 export const metadata: Metadata = {
   title: "Blog",
   description: "Read the latest insights and analysis from The Crypto Masters.",
+  openGraph: {
+    title: "Blog | The Crypto Masters",
+    description: "Read the latest insights and analysis from The Crypto Masters.",
+    images: [{ url: "/images/og-card.png" }],
+  },
 };
 
 export default function BlogPage() {

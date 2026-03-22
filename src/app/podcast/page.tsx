@@ -5,6 +5,11 @@ import EpisodeCard from "@/components/podcast/EpisodeCard";
 export const metadata: Metadata = {
   title: "Podcast",
   description: "Listen to The Crypto Masters podcast — crypto education, market analysis, and insights.",
+  openGraph: {
+    title: "Podcast | The Crypto Masters",
+    description: "Listen to The Crypto Masters podcast — crypto education, market analysis, and insights.",
+    images: [{ url: "/images/og-card.png" }],
+  },
 };
 
 export default function PodcastPage() {
@@ -19,10 +24,10 @@ export default function PodcastPage() {
             Join Brian and Ross as they break down the crypto world. Available on all major platforms.
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-6">
-            <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-card border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-accent hover:text-accent transition-colors">Spotify</a>
-            <a href="https://podcasts.apple.com" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-card border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-accent hover:text-accent transition-colors">Apple Podcasts</a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-card border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-accent hover:text-accent transition-colors">YouTube</a>
-            <a href="https://podbean.com" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-card border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-accent hover:text-accent transition-colors">Podbean</a>
+            <a href="https://open.spotify.com/show/38kIh4n39NvSbUTJew7rF4?si=p5LCiy0fTKuZipgXDNpFbg" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-card border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-accent hover:text-accent transition-colors">Spotify</a>
+            <a href="https://podcasts.apple.com/us/podcast/the-crypto-masters-podcast/id1507473032" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-card border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-accent hover:text-accent transition-colors">Apple Podcasts</a>
+            <a href="https://www.youtube.com/channel/UCyrKtJ25wtlemNHk5MG-9tQ" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-card border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-accent hover:text-accent transition-colors">YouTube</a>
+            <a href="https://thecryptomasters.podbean.com/" target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-card border border-gray-700 rounded-lg text-sm text-gray-300 hover:border-accent hover:text-accent transition-colors">Podbean</a>
           </div>
         </div>
 

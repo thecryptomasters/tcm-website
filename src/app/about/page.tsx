@@ -3,8 +3,13 @@ import Image from "next/image";
 import { Mail, Target, BookOpen, Users } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Us",
   description: "Meet the team behind The Crypto Masters — Brian McCoy and Ross Eaton.",
+  openGraph: {
+    title: "About Us | The Crypto Masters",
+    description: "Meet the team behind The Crypto Masters — Brian McCoy and Ross Eaton.",
+    images: [{ url: "/images/og-card.png" }],
+  },
 };
 
 function XIcon({ className }: { className?: string }) {
@@ -21,14 +26,14 @@ const team = [
     image: "/images/brian_headshot.png",
     bio: "Hey I'm Brian. I am a current practicing lawyer. I co-managed a frontier markets hedge fund for almost 20 years. So my background in investing is in equities. I have been investing in crypto currency since 2018 and am focused on bitcoin and altcoins as a long term investment.",
     email: "brian@thecryptomasters.com",
-    twitter: "https://twitter.com/cryptolerable",
+    twitter: "https://x.com/cryptolerable",
   },
   {
     name: "Ross Eaton",
     image: "/images/ross_headshot.png",
     bio: "Hello I'm Ross. I have a degree in Computer Science with 6 years of experience in software development and data analysis. I have been in the world of cryptocurrency since 2017. I see crypto as the tech of the future with potential of replacing traditional banking systems.",
     email: "ross@thecryptomasters.com",
-    twitter: "https://twitter.com/RosstheCryptoB1",
+    twitter: "https://x.com/RosstheCryptoB1",
   },
 ];
 

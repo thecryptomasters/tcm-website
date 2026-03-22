@@ -12,6 +12,7 @@ interface TickerCoin {
 
 export default function CryptoTicker() {
   const [coins, setCoins] = useState<TickerCoin[]>([]);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     async function fetchPrices() {
@@ -21,8 +22,9 @@ export default function CryptoTicker() {
         );
         const data = await res.json();
         setCoins(data.data);
+        setError(false);
       } catch {
-        // Silently fail - ticker is non-critical
+        setError(true);
       }
     }
     fetchPrices();
@@ -30,7 +32,31 @@ export default function CryptoTicker() {
     return () => clearInterval(interval);
   }, []);
 
-  if (coins.length === 0) return null;
+  if (error && coins.length === 0) {
+    return (
+      <div className="bg-primary-dark/80 border-y border-gray-700/50 overflow-hidden">
+        <div className="flex justify-center py-2">
+          <span className="text-sm text-gray-500">Unable to load prices</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (coins.length === 0) {
+    return (
+      <div className="bg-primary-dark/80 border-y border-gray-700/50 overflow-hidden">
+        <div className="flex whitespace-nowrap py-2 gap-6 px-6">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <span key={i} className="inline-flex items-center gap-2">
+              <span className="h-3 w-10 bg-gray-700/50 rounded animate-pulse" />
+              <span className="h-3 w-16 bg-gray-700/50 rounded animate-pulse" />
+              <span className="h-3 w-12 bg-gray-700/50 rounded animate-pulse" />
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-primary-dark/80 border-y border-gray-700/50 overflow-hidden">

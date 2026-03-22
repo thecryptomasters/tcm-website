@@ -113,7 +113,7 @@ export default function MarketCapPage() {
                         baseCoin === c.id ? "bg-accent/20 text-accent" : "text-gray-300 hover:bg-primary/30"
                       }`}
                     >
-                      {c.image && <img src={c.image} alt="" className="w-5 h-5 rounded-full" />}
+                      {c.image && <Image src={c.image} alt={c.name} width={20} height={20} className="rounded-full" unoptimized />}
                       <span>{c.name}</span>
                       <span className="text-gray-500 uppercase text-xs ml-auto">{c.symbol}</span>
                     </button>
@@ -143,7 +143,7 @@ export default function MarketCapPage() {
                         compareCoin === c.id ? "bg-accent/20 text-accent" : "text-gray-300 hover:bg-primary/30"
                       }`}
                     >
-                      {c.image && <img src={c.image} alt="" className="w-5 h-5 rounded-full" />}
+                      {c.image && <Image src={c.image} alt={c.name} width={20} height={20} className="rounded-full" unoptimized />}
                       <span>{c.name}</span>
                       <span className="text-gray-500 uppercase text-xs ml-auto">{c.symbol}</span>
                     </button>
@@ -164,13 +164,13 @@ export default function MarketCapPage() {
 
                   <div className="flex items-center justify-center gap-4 mb-8">
                     <div className="text-center">
-                      {base.image && <img src={base.image} alt="" className="w-12 h-12 rounded-full mx-auto mb-2" />}
+                      {base.image && <Image src={base.image} alt={base.name} width={48} height={48} className="rounded-full mx-auto mb-2" unoptimized />}
                       <p className="text-white font-semibold">{base.name}</p>
                       <p className="text-gray-500 text-sm">{formatCurrency(base.current_price)}</p>
                     </div>
                     <ArrowRight className="w-6 h-6 text-accent" />
                     <div className="text-center">
-                      {compare.image && <img src={compare.image} alt="" className="w-12 h-12 rounded-full mx-auto mb-2" />}
+                      {compare.image && <Image src={compare.image} alt={compare.name} width={48} height={48} className="rounded-full mx-auto mb-2" unoptimized />}
                       <p className="text-white font-semibold">{compare.name}</p>
                       <p className="text-gray-500 text-sm">Market Cap: {formatCurrency(compare.market_cap)}</p>
                     </div>
