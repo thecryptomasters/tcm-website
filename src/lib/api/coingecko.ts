@@ -2,11 +2,6 @@ import { CoinGeckoMarketCoin, CoinGeckoDetail, CoinGeckoChartData, CoinGeckoGlob
 
 const BASE_URL = "https://api.coingecko.com/api/v3";
 
-const HEADERS: HeadersInit = {
-  "Accept": "application/json",
-  "x-cg-demo-api-key": "CG-DEMO",
-};
-
 export async function getMarkets(
   page = 1,
   perPage = 100,
@@ -21,7 +16,6 @@ export async function getMarkets(
     price_change_percentage: "24h,7d,30d",
   });
   const res = await fetch(`${BASE_URL}/coins/markets?${params}`, {
-    headers: HEADERS,
     next: { revalidate: 120 },
   });
   if (!res.ok) throw new Error("Failed to fetch markets");
@@ -31,7 +25,7 @@ export async function getMarkets(
 export async function getCoinDetail(id: string): Promise<CoinGeckoDetail> {
   const res = await fetch(
     `${BASE_URL}/coins/${id}?localization=false&tickers=false&community_data=false&developer_data=false`,
-    { headers: HEADERS, next: { revalidate: 120 } }
+    { next: { revalidate: 120 } }
   );
   if (!res.ok) throw new Error(`Failed to fetch coin: ${id}`);
   return res.json();
@@ -39,20 +33,31 @@ export async function getCoinDetail(id: string): Promise<CoinGeckoDetail> {
 
 export async function getCoinChart(
   id: string,
-  from: number,
-  to: number
+  days: number | string = 30
 ): Promise<CoinGeckoChartData> {
   const res = await fetch(
-    `${BASE_URL}/coins/${id}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
-    { headers: HEADERS, next: { revalidate: 300 } }
+    `${BASE_URL}/coins/${id}/market_chart?vs_currency=usd&days=${days}`,
+    { next: { revalidate: 300 } }
   );
   if (!res.ok) throw new Error(`Failed to fetch chart: ${id}`);
   return res.json();
 }
 
+export async function getCoinChartRange(
+  id: string,
+  from: number,
+  to: number
+): Promise<CoinGeckoChartData> {
+  const res = await fetch(
+    `${BASE_URL}/coins/${id}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
+    { next: { revalidate: 300 } }
+  );
+  if (!res.ok) throw new Error(`Failed to fetch chart range: ${id}`);
+  return res.json();
+}
+
 export async function searchCoins(query: string): Promise<{ coins: { id: string; name: string; symbol: string; thumb: string }[] }> {
   const res = await fetch(`${BASE_URL}/search?query=${encodeURIComponent(query)}`, {
-    headers: HEADERS,
     next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error("Failed to search coins");
@@ -61,7 +66,6 @@ export async function searchCoins(query: string): Promise<{ coins: { id: string;
 
 export async function getGlobalData(): Promise<CoinGeckoGlobal> {
   const res = await fetch(`${BASE_URL}/global`, {
-    headers: HEADERS,
     next: { revalidate: 300 },
   });
   if (!res.ok) throw new Error("Failed to fetch global data");

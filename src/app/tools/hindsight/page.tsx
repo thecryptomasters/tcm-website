@@ -65,9 +65,17 @@ export default function HindsightPage() {
         return;
       }
 
+      // CoinGecko free tier limits range queries to 365 days
+      const now = Math.floor(Date.now() / 1000);
+      const maxRange = 365 * 24 * 60 * 60;
+      if (now - from > maxRange) {
+        setError("Free API limits historical data to the past 365 days. Please choose a more recent start date.");
+        setLoading(false);
+        return;
+      }
+
       const res = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
-        { headers: { "Accept": "application/json", "x-cg-demo-api-key": "CG-DEMO" } }
+        `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`
       );
       const data = await res.json();
 
