@@ -66,7 +66,8 @@ export default function HindsightPage() {
       }
 
       const res = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`
+        `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart/range?vs_currency=usd&from=${from}&to=${to}`,
+        { headers: { "Accept": "application/json", "x-cg-demo-api-key": "CG-DEMO" } }
       );
       const data = await res.json();
 
